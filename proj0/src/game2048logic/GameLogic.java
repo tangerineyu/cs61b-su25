@@ -20,14 +20,23 @@ public class GameLogic {
      */
     public static int moveTileUpAsFarAsPossible(int[][] board, int r, int c, int minR) {
         // TODO: Fill this in in tasks 2, 3, 4
-        if (r - 1 >= 0) {
-            if (board[r - 1][c] == 0) {
-                board[r - 1][c] = board[r][c];
-                board[r][c] = 0;
-                moveTileUpAsFarAsPossible(board, r - 1, c, minR);
-            }
+        if (r <= minR) {return r;}
+
+        if (board[r - 1][c] == 0) {
+            board[r - 1][c] = board[r][c];
+            board[r][c] = 0;
+            return moveTileUpAsFarAsPossible(board, r - 1, c, minR);
         }
-        return 0;
+        //发生合并时，返回发生合并的行号 + 1
+        else if (board[r][c] == board[r - 1][c]) {
+            board[r - 1][c] *= 2;
+            board[r][c] = 0;
+            return r - 1 + 1;
+        }
+        //没有移动，并且没有合并，返回0
+        else {
+            return minR;
+        }
     }
 
     /**
