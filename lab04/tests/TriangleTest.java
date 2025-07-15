@@ -34,9 +34,9 @@ public abstract class TriangleTest {
         assertWithMessage("point (0,0),(3,0),(0,4) should form a valid triangle")
                 .that(t.pointsFormTriangle(0,0,3,0,0,4)).isTrue();
         assertWithMessage("Collinear points (1,1),(2,2）,(3，3) should not form a triangle")
-                .that(t.pointsFormTriangle(1,1,2,3,3,4)).isFalse();
+                .that(t.pointsFormTriangle(1,1,2,2,3,3)).isFalse();
         assertWithMessage("having teo identical points (1,1) should not form a triangle")
-                .that(t.pointsFormTriangle(1,1,2,3,3,4)).isFalse();
+                .that(t.pointsFormTriangle(1,1,1,1,2,2)).isFalse();
     }
 
     @Test
@@ -54,10 +54,10 @@ public abstract class TriangleTest {
     public void squaredHypotenuse() {
         Triangle t = getNewTriangle();
         assertWithMessage("squared Hypotenuse for legs 3 and 4 should be 25")
-                .that(t.squaredHypotenuse(3,4)).isEqualTo("25");
+                .that(t.squaredHypotenuse(3,4)).isEqualTo(25);
         assertWithMessage("squared Hypotenuse for legs 5 and 12 should be 13")
-                .that(t.squaredHypotenuse(5,12)).isEqualTo("169");
+                .that(t.squaredHypotenuse(5,12)).isEqualTo(169);
         assertWithMessage("The squared hupotenuse for legs 7 and 0 should be 49")
-                .that(t.squaredHypotenuse(7,0)).isEqualTo("49");
+                .that(t.squaredHypotenuse(7,0)).isEqualTo(49);
     }
 }
