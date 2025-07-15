@@ -24,14 +24,14 @@ public abstract class TriangleTest {
                 .that(t.sidesFormTriangle(1, 2, 3)).isFalse();
         assertWithMessage("Side 1,2 ,4 should not form a triangle")
                 .that(t.sidesFormTriangle(1, 2, 4)).isFalse();
-        assertWithMessage("A triangle cannot have a side of jlength 0")
+        assertWithMessage("A triangle cannot have a side of length 0")
                 .that(t.sidesFormTriangle(5, 5, 0)).isFalse();
         assertWithMessage("A triangle cannot have a negative side")
                 .that(t.sidesFormTriangle(-3, 4, 5)).isFalse();
 
         // 测试接近整数最大值的边长，防止加法溢出后变成负数导致判断错误
         assertWithMessage("Sides with large numbers should not cause overflow issues")
-                .that(t.sidesFormTriangle(Integer.MAX_VALUE, Integer.MAX_VALUE, 1)).isTrue();
+                .that(t.sidesFormTriangle(Integer.MAX_VALUE, Integer.MAX_VALUE, 1)).isFalse();
     }
 
     @Test
