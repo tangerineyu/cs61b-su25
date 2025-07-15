@@ -22,6 +22,7 @@ public class GameLogic {
     private static boolean []merged = new boolean[4];
     public static int moveTileUpAsFarAsPossible(int[][] board, int r, int c, int minR) {
         int currentR = r;
+
         while (currentR > minR){
             if (board[currentR - 1][c] == 0) {
                 board[currentR - 1][c] = board[currentR][c];
@@ -29,7 +30,7 @@ public class GameLogic {
                 currentR--;
             }
                 //发生合并时，返回发生合并的行号 + 1
-            else if (board[currentR][c] == board[currentR - 1][c] && merged[currentR - 1] == false) {
+            else if (board[currentR][c] == board[currentR - 1][c] && !merged[currentR - 1]) {
                 board[currentR - 1][c] *= 2;
                 board[currentR][c] = 0;
                 merged [currentR - 1] = true;
@@ -55,7 +56,7 @@ public class GameLogic {
      */
     public static void tiltColumn(int[][] board, int c) {
         merged = new boolean[4];
-        for (int i = 1;i < 4;i ++) {
+        for (int i = 0;i < 4;i ++) {
             moveTileUpAsFarAsPossible(board, i, c, 0);
 
         }
