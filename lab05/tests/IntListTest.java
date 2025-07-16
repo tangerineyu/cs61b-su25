@@ -1,3 +1,4 @@
+import edu.princeton.cs.algs4.In;
 import org.junit.Test;
 import static com.google.common.truth.Truth.assertWithMessage;
 
@@ -153,11 +154,70 @@ public class IntListTest {
 
     @Test
     public void testCatenate() {
-        // TODO: Add tests
+        IntList a = IntList.of(1, 2, 3);
+        IntList b = IntList.of(4, 5, 6);
+        IntList c = IntList.catenate(a, b);
+        assertWithMessage("catenated list should stay the same")
+                .that(a).isEqualTo(IntList.of(1, 2, 3));
+        assertWithMessage("catenated list should stay the same")
+                .that(b).isEqualTo(IntList.of(4, 5, 6));
+        assertWithMessage("Catenate list (1,2,3) and (4,5,6)")
+                .that(IntList.catenate(a, b)).isEqualTo(IntList.of(1, 2, 3, 4, 5, 6));
+        assertWithMessage("Catenate list null and (4,5,6)")
+                .that(IntList.catenate(null,b)).isEqualTo(IntList.of(4,5,6));
+        assertWithMessage("Catenate list (1,2,3) and null")
+                .that(IntList.catenate(a,null)).isEqualTo(IntList.of(1,2,3));
+        assertWithMessage("Catenate null and null")
+                .that(IntList.catenate(null, null)).isEqualTo(null);
     }
 
     @Test
     public void testDCatenate() {
-        // TODO: Add test
+        IntList a = IntList.of(1, 2, 3);
+        IntList b = IntList.of(4, 5, 6);
+        IntList expected1 = IntList.of(1, 2, 3, 4, 5, 6);
+
+        IntList result = IntList.dcatenate(a, b);
+
+        // 验证拼接结果是否正确
+        assertWithMessage("拼接 (1,2,3) 和 (4,5,6) 的结果不正确")
+                .that(result).isEqualTo(expected1);
+
+        // 关键验证：检查 A 是否被“破坏性”地修改了
+        assertWithMessage("原始链表 a 应该被修改为拼接后的长链表")
+                .that(a).isEqualTo(expected1);
+
+        // 关键验证：检查返回值 result 和 a 是否是同一个对象
+        assertWithMessage("返回值应该和第一个参数 a 是同一个对象实例")
+                .that(result).isSameInstanceAs(a);
+
+        // 验证 B 链表保持不变
+        assertWithMessage("链表 b 不应该被修改")
+                .that(b).isEqualTo(IntList.of(4, 5, 6));
+
+        // --- 测试 2: B 为 null 的情况 ---
+        IntList a2 = IntList.of(1, 2, 3);
+        IntList result2 = IntList.dcatenate(a2, null);
+        assertWithMessage("拼接 (1,2,3) 和 null 的结果不正确")
+                .that(result2).isEqualTo(IntList.of(1, 2, 3));
+        assertWithMessage("当 B 为 null 时，A 不应该被改变")
+                .that(a2).isEqualTo(IntList.of(1, 2, 3));
+        assertWithMessage("当 B 为 null 时，返回值应和 A 是同一个对象")
+                .that(result2).isSameInstanceAs(a2);
+
+
+        // --- 测试 3: A 为 null 的情况 ---
+        IntList b3 = IntList.of(4, 5, 6);
+        IntList result3 = IntList.dcatenate(null, b3);
+        assertWithMessage("拼接 null 和 (4,5,6) 的结果应为 (4,5,6)")
+                .that(result3).isEqualTo(IntList.of(4, 5, 6));
+        assertWithMessage("当 A 为 null 时，返回值应和 B 是同一个对象")
+                .that(result3).isSameInstanceAs(b3);
+
+
+        // --- 测试 4: A 和 B 都为 null 的情况 ---
+        IntList result4 = IntList.dcatenate(null, null);
+        assertWithMessage("拼接 null 和 null 的结果应为 null")
+                .that(result4).isNull();
     }
 }

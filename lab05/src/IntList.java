@@ -1,3 +1,5 @@
+import edu.princeton.cs.algs4.In;
+
 /** A data structure to represent a Linked List of Integers.
  * Each IntList represents one node in the overall Linked List.
  */
@@ -46,9 +48,18 @@ public class IntList {
      * @param position, the position of element.
      * @return The element at [position]
      */
-    public int get(int position) {
-        // TODO: YOUR CODE HERE
-        return -1;
+    public int get (int position) {
+        IntList head = this;
+        if (position < 0) {
+            throw new IllegalArgumentException("Negative index: " + position);
+        }
+        for (int i = 0;i < position;i++) {
+            if (head.next == null) {
+                throw new IllegalArgumentException("Position " + position + " is out of bounds");
+            }
+            head = head.next;
+        }
+        return head.item;
     }
 
     /**
@@ -58,10 +69,17 @@ public class IntList {
      * @return The String representation of the list.
      */
     public String toString() {
-        // TODO: YOUR CODE HERE
-        return null;
+        IntList head = this;
+        StringBuilder sb = new StringBuilder();
+        while (head != null) {
+            sb.append(head.item);
+            if (head.next != null) {
+                sb.append(" ");
+            }
+            head = head.next;
+        }
+        return sb.toString().trim();
     }
-
     /**
      * Returns whether this and the given list or object are equal.
      *
@@ -81,11 +99,21 @@ public class IntList {
             return false;
         }
         if (obj instanceof IntList otherList) {
-            // TODO: your code here
-
+            IntList other = (IntList) obj;
+            IntList p1 = this;
+            IntList p2 = other;
+            while ( p2 != null && p1 != null) {
+                if (p2.item != p1.item) {
+                    return false;
+                }
+                p1 = p1.next;
+                p2 = p2.next;
+            }
+            return p1 == null && p2 == null;
         }
         return false;
     }
+
 
     /**
      * Adds the given value at the end of the list.
@@ -94,6 +122,12 @@ public class IntList {
      */
     public void add(int value) {
         // TODO: YOUR CODE HERE
+        IntList head = this;
+        while (head.next != null) {
+            head = head.next;
+        }
+        head.next = new IntList(value,null);
+
     }
 
     /**
@@ -102,8 +136,13 @@ public class IntList {
      * @return smallest element in the list
      */
     public int smallest() {
-        // TODO: YOUR CODE HERE
-        return -1;
+        IntList head = this;
+        int min = head.item;
+        while (head.next != null) {
+            min = Math.min(min, head.next.item);
+            head = head.next;
+        }
+        return min;
     }
 
     /**
@@ -113,7 +152,16 @@ public class IntList {
      */
     public int squaredSum() {
         // TODO: YOUR CODE HERE
-        return -1;
+        IntList head = this;
+        int sum = 0;
+        while (head != null) {
+            sum += head.item * head.item;
+            if (head.next == null) {
+                break;
+            }
+            head = head.next;
+        }
+        return sum;
     }
 
     /**
@@ -170,8 +218,35 @@ public class IntList {
      * @return new list with A followed by B.
      */
     public static IntList catenate(IntList A, IntList B) {
-        // TODO: YOUR CODE HERE
-        return null;
+       if (A == null) {
+           if (B == null) {
+               return null;
+           }
+           IntList pre = new IntList(B.item, null);
+           IntList prePtr = pre;
+           IntList preB = B.next;
+           while (preB != null) {
+               prePtr.next = new IntList(preB.item, null);
+               prePtr = prePtr.next;
+               preB = preB.next;
+           }
+           return pre;
+       }
+       IntList res = new IntList(A.item,null);
+       IntList ptr = res;
+       IntList pA = A.next;
+       while (pA != null) {
+           ptr.next = new IntList(pA.item,null);
+           ptr = ptr.next;
+           pA = pA.next;
+       }
+       IntList pB = B;
+       while (pB!= null) {
+           ptr.next = new IntList(pB.item,null);
+           ptr = ptr.next;
+           pB = pB.next;
+       }
+       return res;
     }
 
     /**
@@ -184,6 +259,14 @@ public class IntList {
      */
     public static IntList dcatenate(IntList A, IntList B) {
         // TODO: YOUR CODE HERE
-        return null;
+        if (A == null) {
+            return B;
+        }
+        IntList ptr = A;
+        while (ptr.next != null) {
+            ptr = ptr.next;
+        }
+        ptr.next = B;
+        return A;
     }
 }
