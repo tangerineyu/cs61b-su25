@@ -7,7 +7,7 @@ public class LinkedListDeque61B <T> implements Deque61B<T> {
     public class LinkedListNode {
         private LinkedListNode pre;
         private T item;
-        public LinkedListNode next;
+        private LinkedListNode next;
         public LinkedListNode(T item, LinkedListNode pre, LinkedListNode next) {
             this.item = item;
             this.pre = pre;
@@ -22,9 +22,9 @@ public class LinkedListDeque61B <T> implements Deque61B<T> {
     @Override
     public void addFirst(T x) {
         LinkedListNode temp = sentinel.next;
-        LinkedListNode newNode = new LinkedListNode(x,null,null);
+        LinkedListNode newNode = new LinkedListNode(x, null, null);
         newNode.next = temp;
-        newNode.pre = newNode;
+        newNode.pre = sentinel;
         sentinel.next = newNode;
         temp.pre = newNode;
         size++;
@@ -77,6 +77,8 @@ public class LinkedListDeque61B <T> implements Deque61B<T> {
         sentinel.next = removedNode.next;
         removedNode.next.pre = sentinel;
         size--;
+        removedNode.pre = null;
+        removedNode.next = null;
         return removedItem;
     }
 
@@ -90,6 +92,8 @@ public class LinkedListDeque61B <T> implements Deque61B<T> {
         sentinel.pre = removedNode.pre;
         removedNode.pre.next = sentinel;
         size--;
+        removedNode.pre = null;
+        removedNode.next = null;
         return removedItem;
     }
 
@@ -113,7 +117,7 @@ public class LinkedListDeque61B <T> implements Deque61B<T> {
         return getRecursiveHelp(sentinel.next, index);
     }
 
-    private T getRecursiveHelp (LinkedListNode node,int index) {
+    private T getRecursiveHelp(LinkedListNode node, int index) {
         if (index == 0) {return node.item;}
         return getRecursiveHelp(node.next, index - 1);
     }

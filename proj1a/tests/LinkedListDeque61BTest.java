@@ -130,4 +130,22 @@ public class LinkedListDeque61BTest {
         assertThat(lld1.getRecursive(0)).isEqualTo(1);
         assertThat(lld1.getRecursive(2)).isEqualTo(3);
     }
+    @Test
+    void addFirstRemoveLastTest() {
+         Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+         lld1.addFirst(1);
+         lld1.removeFirst();
+         //assertThat(lld1.isEmpty()).isTrue();
+         lld1.addLast(2);
+         lld1.removeFirst();
+         lld1.removeFirst();
+         assertThat(lld1.isEmpty()).isTrue();
+    }
+    @Test
+    void addLastRemoveLastTest() {
+         Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+         lld1.addLast(1);
+         lld1.removeFirst();
+         assertThat(lld1.isEmpty()).isTrue();
+    }
 }
