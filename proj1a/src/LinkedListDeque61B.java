@@ -1,7 +1,9 @@
+import com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonAfterOuterTypeDeclarationCheck;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class LinkedListDeque61B <T> implements Deque61B<T> {
+public class LinkedListDeque61B<T> implements Deque61B<T> {
     private LinkedListNode sentinel;
     private int size;
     public class LinkedListNode {
@@ -42,7 +44,7 @@ public class LinkedListDeque61B <T> implements Deque61B<T> {
     public List<T> toList() {
         List<T> returnList = new ArrayList<T>();
         LinkedListNode l = sentinel.next;
-        for (int i = 0; i < size;i++) {
+        for (int i = 0; i < size; i++) {
             returnList.add(l.item);
             l = l.next;
         }
@@ -59,11 +61,6 @@ public class LinkedListDeque61B <T> implements Deque61B<T> {
 
     @Override
     public int size() {
-//        LinkedListNode l = sentinel;
-//        while (l.next != sentinel) {
-//            l = l.next;
-//            size += 1;
-//        }
         return size;
     }
 
@@ -116,9 +113,8 @@ public class LinkedListDeque61B <T> implements Deque61B<T> {
         }
         return getRecursiveHelp(sentinel.next, index);
     }
-
     private T getRecursiveHelp(LinkedListNode node, int index) {
-        if (index == 0) {return node.item;}
+        if (index == 0) return node.item;
         return getRecursiveHelp(node.next, index - 1);
     }
 }

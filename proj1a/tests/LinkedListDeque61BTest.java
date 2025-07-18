@@ -79,6 +79,8 @@ public class LinkedListDeque61BTest {
         assertThat(lld1.size()).isEqualTo(1);
         lld1.removeFirst();
         assertThat(lld1.size()).isEqualTo(0);
+        lld1.removeFirst();
+        assertThat(lld1.size()).isEqualTo(0);
     }
 
     @Test
