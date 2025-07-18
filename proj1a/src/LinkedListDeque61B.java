@@ -43,7 +43,7 @@ public class LinkedListDeque61B <T> implements Deque61B<T> {
         List<T> returnList = new ArrayList<T>();
         LinkedListNode l = sentinel.next;
         for (int i = 0; i < size;i++) {
-            returnList.addLast(l.item);
+            returnList.add(l.item);
             l = l.next;
         }
         return returnList;

@@ -58,72 +58,76 @@ public class LinkedListDeque61BTest {
 
     // Below, you'll write your own tests for LinkedListDeque61B.
     @Test
-    public void isEmptytest() {
-         Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
-         assertThat(lld1.isEmpty()).isTrue();
-         lld1.addLast(1);
-         assertThat(lld1.isEmpty()).isFalse();
+    void isEmpty() {
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        assertThat(lld1.isEmpty()).isTrue();
+        lld1.addLast(1);
+        assertThat(lld1.isEmpty()).isFalse();
     }
+
     @Test
-    public void sizeTest() {
-         Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
-         lld1.addLast(1);
-         lld1.addLast(2);
-         assertThat(lld1.size()).isEqualTo(2);
-         lld1.removeFirst();
-         assertThat(lld1.size()).isEqualTo(1);
-         lld1.addFirst(3);
-         assertThat(lld1.size()).isEqualTo(2);
-         lld1.removeLast();
-         assertThat(lld1.size()).isEqualTo(1);
-         lld1.removeFirst();
-         assertThat(lld1.size()).isEqualTo(0);
+    void size() {
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        lld1.addLast(1);
+        lld1.addLast(2);
+        assertThat(lld1.size()).isEqualTo(2);
+        lld1.removeFirst();
+        assertThat(lld1.size()).isEqualTo(1);
+        lld1.addFirst(3);
+        assertThat(lld1.size()).isEqualTo(2);
+        lld1.removeLast();
+        assertThat(lld1.size()).isEqualTo(1);
+        lld1.removeFirst();
+        assertThat(lld1.size()).isEqualTo(0);
     }
+
     @Test
-    public void getTest() {
-         Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
-         lld1.addLast(1);
-         lld1.addLast(2);
-         lld1.addLast(3);
-         assertThat(lld1.get(0)).isEqualTo(1);
-         assertThat(lld1.get(2)).isEqualTo(3);
+    void removeFirst() {
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        lld1.addLast(1);
+        lld1.addLast(2);
+        lld1.addLast(3);
+        assertThat(lld1.toList()).containsExactly(1, 2, 3).inOrder();
+        lld1.removeFirst();
+        assertThat(lld1.toList()).containsExactly(2, 3).inOrder();
+        lld1.removeFirst();
+        lld1.removeFirst();
+        assertThat(lld1.isEmpty()).isTrue();
+        lld1.removeFirst();
+        assertThat(lld1.isEmpty()).isTrue();
     }
+
     @Test
-    public void getRecursiveTest() {
+    void removeLast() {
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        lld1.addLast(1);
+        lld1.addLast(2);
+        lld1.addLast(3);
+        assertThat(lld1.toList()).containsExactly(1, 2, 3).inOrder();
+        lld1.removeLast();
+        assertThat(lld1.toList()).containsExactly(1, 2 ).inOrder();
+        lld1.removeLast();
+        lld1.removeLast();
+        assertThat(lld1.isEmpty()).isTrue();
+    }
+
+    @Test
+    void get() {
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        lld1.addLast(1);
+        lld1.addLast(2);
+        lld1.addLast(3);
+        assertThat(lld1.get(0)).isEqualTo(1);
+        assertThat(lld1.get(2)).isEqualTo(3);
+    }
+
+    @Test
+    void getRecursive() {
         Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
         lld1.addLast(1);
         lld1.addLast(2);
         lld1.addLast(3);
         assertThat(lld1.getRecursive(0)).isEqualTo(1);
         assertThat(lld1.getRecursive(2)).isEqualTo(3);
-
-    }
-    @Test
-    public void removeFirstTest() {
-         Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
-         lld1.addLast(1);
-         lld1.addLast(2);
-         lld1.addLast(3);
-         assertThat(lld1.toList()).containsExactly(1, 2, 3).inOrder();
-         lld1.removeFirst();
-         assertThat(lld1.toList()).containsExactly(2, 3 ).inOrder();
-         lld1.removeFirst();
-         lld1.removeFirst();
-         assertThat(lld1.isEmpty()).isTrue();
-         lld1.removeFirst();
-         assertThat(lld1.isEmpty()).isTrue();
-    }
-    @Test
-    public void removeLastTest() {
-         Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
-         lld1.addLast(1);
-         lld1.addLast(2);
-         lld1.addLast(3);
-         assertThat(lld1.toList()).containsExactly(1, 2, 3).inOrder();
-         lld1.removeLast();
-         assertThat(lld1.toList()).containsExactly(1, 2 ).inOrder();
-         lld1.removeLast();
-         lld1.removeLast();
-         assertThat(lld1.isEmpty()).isTrue();
     }
 }
