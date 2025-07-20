@@ -17,8 +17,10 @@ public class BooleanSet implements SimpleSet {
     @Override
     public void add(int k) {
         // TODO: Implement this method.
-        contains[k] = true;
-        size++;
+        if (!contains[k]) {
+            contains[k] = true;
+            size++;
+        }
     }
 
     /** Removes k from the set. */
@@ -53,14 +55,14 @@ public class BooleanSet implements SimpleSet {
     public int[] toIntArray() {
         // TODO: Implement this method.
         int booleanSize = 0;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < contains.length; i++) {
             if (contains[i]) {
                 booleanSize++;
             }
         }
         int[] result = new int[booleanSize];
         int index = 0;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < contains.length; i++) {
             if (contains[i]) {
                 result[index] = i;
                 index++;
