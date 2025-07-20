@@ -40,5 +40,16 @@ public class BooleanSetTest {
             assertWithMessage("aSet should not contain " + i).that(aSet.contains(i));
         }
     }
+    @Test
+    public void testToArray() {
+        BooleanSet aSet = new BooleanSet(6);
+        aSet.add(4);
+        aSet.add(5);
+        assertWithMessage("BooleanSet to ArrayList failed")
+                .that(aSet.toIntArray()).isEqualTo(new int[] { 4, 5});
+        BooleanSet bSet = new BooleanSet(8);
+        assertWithMessage(" BooleanSet to ArrayList failed")
+                .that(bSet.toIntArray()).isEqualTo(new int[] {});
 
+    }
 }
