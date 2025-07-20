@@ -23,5 +23,60 @@ public class ListSetTest {
         assertWithMessage("aSet is not empty after removing all elements").that(aSet.isEmpty());
         assertWithMessage("Size is not zero after removing all elements").that(aSet.size()).isEqualTo(0);
     }
+    @Test
+    public void testAdd() {
+        ListSet aSet = new ListSet();
+        aSet.add(1);
+        aSet.add(2);
+        assertThat(aSet.size()).isEqualTo(2);
+    }
+    @Test
+    public void testRemove() {
+        ListSet aSet = new ListSet();
+        aSet.add(1);
+        aSet.add(2);
+        aSet.remove(2);
+        assertThat(aSet.size()).isEqualTo(1);
+        aSet.remove(1);
+        assertThat(aSet.size()).isEqualTo(0);
+        aSet.remove(1);
+        assertThat(aSet.size()).isEqualTo(0);
+    }
+    @Test
+    public void testContains() {
+        ListSet aSet = new ListSet();
+        aSet.add(1);
+        aSet.add(2);
+        aSet.add(3);
+        assertThat(aSet.contains(3)).isTrue();
+        assertThat(aSet.contains(4)).isFalse();
+        assertThat(aSet.contains(5)).isFalse();
+    }
+    @Test
+    public void testSize() {
+        ListSet aSet = new ListSet();
+        aSet.add(1);
+        aSet.add(2);
+        assertThat(aSet.size()).isEqualTo(2);
+    }
+    @Test
+    public void testIsEmpty() {
+        ListSet aSet = new ListSet();
+        assertThat(aSet.isEmpty()).isTrue();
+        aSet.add(1);
+        assertThat(aSet.isEmpty()).isFalse();
+        aSet.add(2);
+        assertThat(aSet.isEmpty()).isFalse();
+        aSet.remove(2);
+        aSet.remove(1);
+        assertThat(aSet.isEmpty()).isTrue();
+    }
+    @Test
+    public void testToIntArray() {
+        ListSet aSet = new ListSet();
+        aSet.add(1);
+        aSet.add(2);
+        assertWithMessage("intToArray failed").that(aSet.toIntArray()).isEqualTo(new int[] {1, 2});
+    }
 
 }

@@ -16,6 +16,9 @@ public class ListSet implements SimpleSet {
     @Override
     public void add(int k) {
         // TODO: Implement this method.
+        if (!elems.contains(k)) {
+            elems.add(k);
+        }
     }
 
     /** Removes k from the set. */
@@ -25,12 +28,18 @@ public class ListSet implements SimpleSet {
         // TODO - use the above variable with an appropriate List method.
         // The reason is beyond the scope of this lab, but involves
         // method resolution.
+        //这里是因为remove有两个不同参数的方法，一种是接受int对象，移除对应index的元素，这会导致indexoutofbound
+        // 所以这里使用自动装箱，转换为Integer类型，调用另一个接受object的方法
+        elems.remove(toRemove);
     }
 
     /** Return true if k is in this set, false otherwise. */
     @Override
     public boolean contains(int k) {
         // TODO: Implement this method.
+        if (elems.contains(k)) {
+            return true;
+        }
         return false;
     }
 
@@ -44,13 +53,17 @@ public class ListSet implements SimpleSet {
     @Override
     public int size() {
         // TODO: Implement this method.
-        return 0;
+        return elems.size();
     }
 
     /** Returns an array containing all of the elements in this collection. */
     @Override
     public int[] toIntArray() {
         // TODO - use a for loop!
-        return null;
+        int[] arr = new int[size()];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = elems.get(i);
+        }
+        return arr;
     }
 }

@@ -22,4 +22,23 @@ public class BooleanSetTest {
         assertWithMessage("aSet is not empty after removing all elements").that(aSet.isEmpty());
         assertWithMessage("Size is not zero after removing all elements").that(aSet.size()).isEqualTo(0);
     }
+    @Test
+    public void testAdd() {
+        BooleanSet aSet = new BooleanSet(100);
+        for (int i = 0; i < 100; i += 2) {
+            aSet.add(i);
+            assertWithMessage("aSet should contain " + i).that(aSet.contains(i));
+        }
+    }
+    @Test
+    public void testRemove() {
+        BooleanSet aSet = new BooleanSet(100);
+        for (int i = 0; i < 100; i += 2) {
+            aSet.add(i);
+            assertWithMessage("aSet should contain " + i).that(aSet.contains(i));
+            aSet.remove(i);
+            assertWithMessage("aSet should not contain " + i).that(aSet.contains(i));
+        }
+    }
+
 }
