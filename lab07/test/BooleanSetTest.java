@@ -52,4 +52,5 @@ public class BooleanSetTest {
                 .that(bSet.toIntArray()).isEqualTo(new int[] {});
 
     }
+
 }
