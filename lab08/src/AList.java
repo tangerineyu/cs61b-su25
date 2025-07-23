@@ -1,17 +1,34 @@
 import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * An AList is a list of integers. Like SLList, it also hides the terrible
  * truth of the nakedness within, but uses an array as its base.
  */
-public class AList<Item> {
+public class AList<Item> implements Iterable<Item> {
 
     /* TODO: Make AList able to be iterated over. Add new nested classes as necessary.
     *   Your code will likely not compile on the autograder unless you implement this section.*/
+    private class AlistIterator implements Iterator<Item> {
+        private int currPosition;
+        @Override
+        public boolean hasNext() {
+            return currPosition < size;
+        }
 
+        @Override
+        public Item next() {
+            Item returnItem = items[currPosition];
+            currPosition++;
+            return returnItem;
+        }
+    }
+    @Override
+    public Iterator<Item> iterator() {
+        return new AlistIterator();
+    }
     private Item[] items;
     private int size;
-
     /** Creates an empty AList. */
     public AList() {
         // The line below gives a warning (Unchecked cast), but you can ignore this.
@@ -78,5 +95,6 @@ public class AList<Item> {
     private Item[] getItems() {
         return items;
     }
+
 
 }
