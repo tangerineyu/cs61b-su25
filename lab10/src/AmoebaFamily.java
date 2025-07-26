@@ -1,7 +1,7 @@
 package src;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import javax.swing.tree.TreeNode;
+import java.util.*;
 
 /* An src.AmoebaFamily is a tree, where nodes are Amoebas, each of which can have
    any number of children. */
@@ -35,12 +35,15 @@ public class AmoebaFamily implements Iterable<AmoebaFamily.Amoeba> {
     /* Returns the longest name in this src.AmoebaFamily. */
     public String longestName() {
         // TODO: YOUR CODE HERE
+        if (root != null) {
+            return root.longestNameHelper();
+        }
         return "";
     }
 
     /* Returns an Iterator for this src.AmoebaFamily. */
     public Iterator<Amoeba> iterator() {
-        return new AmoebaDFSIterator();
+        return new AmoebaBFSIterator(root);
     }
 
     /* Creates a new src.AmoebaFamily and prints it out. */
@@ -60,6 +63,9 @@ public class AmoebaFamily implements Iterable<AmoebaFamily.Amoeba> {
         family.addChild("Marge", "Hilary");
         System.out.println("Here's the family!");
         // Optional TODO: use the iterator to print out the family!
+        for (Amoeba amoeba : family) {
+            System.out.println(amoeba);
+        }
     }
 
     /* An Amoeba is a node of an src.AmoebaFamily. */
@@ -109,7 +115,16 @@ public class AmoebaFamily implements Iterable<AmoebaFamily.Amoeba> {
             }
             return maxLengthSeen;
         }
-
+        public String longestNameHelper() {
+            String maxLengthName = name;
+            for (Amoeba a : children) {
+                String longestNameInChild = a.longestNameHelper();
+                if (longestNameInChild.length() > maxLengthName.length()) {
+                    maxLengthName = longestNameInChild;
+                }
+            }
+            return maxLengthName;
+        }
         // POSSIBLE HELPER FUNCTIONS HERE
 
     }
@@ -123,17 +138,30 @@ public class AmoebaFamily implements Iterable<AmoebaFamily.Amoeba> {
 
         /* AmoebaDFSIterator constructor. Sets up all of the initial information
            for the AmoebaDFSIterator. */
-        public AmoebaDFSIterator() {
-        }
+        private Stack<Amoeba> stack = new Stack<Amoeba>();
+        public AmoebaDFSIterator(Amoeba root) {
+           if (root != null) {
+               stack.push(root);
+           }
 
+        }
         /* Returns true if there is a next element to return. */
         public boolean hasNext() {
-            return false;
+            return !stack.isEmpty();
         }
 
         /* Returns the next element. */
         public Amoeba next() {
-            return null;
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            Amoeba node = stack.pop();
+            if (node.children != null) {
+                for (int i = node.children.size() - 1; i >= 0; i--) {
+                    stack.push(node.children.get(i));
+                }
+            }
+            return node;
         }
 
         public void remove() {
@@ -150,17 +178,30 @@ public class AmoebaFamily implements Iterable<AmoebaFamily.Amoeba> {
 
         /* AmoebaBFSIterator constructor. Sets up all of the initial information
            for the AmoebaBFSIterator. */
-        public AmoebaBFSIterator() {
+        private Queue<Amoeba> queue = new LinkedList<Amoeba>();
+        public AmoebaBFSIterator(Amoeba root) {
+            if (root != null) {
+                queue.offer(root);
+            }
         }
 
         /* Returns true if there is a next element to return. */
         public boolean hasNext() {
-            return false;
+            return !queue.isEmpty();
         }
 
         /* Returns the next element. */
         public Amoeba next() {
-            return null;
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            Amoeba node = queue.poll();
+            if (node.children != null) {
+                for (Amoeba a : node.children) {
+                    queue.offer(a);
+                }
+            }
+            return node;
         }
 
         public void remove() {
