@@ -49,14 +49,14 @@ public class RedBlackTree<T extends Comparable<T>> {
             // TODO: Replace with code to create a 2-node equivalent
             RBTreeNode left = buildRedBlackTree(r.getChildAt(0));
             RBTreeNode right = buildRedBlackTree(r.getChildAt(1));
-            RBTreeNode node = new RBTreeNode(true, r.getItemAt(1), left, right);
+            RBTreeNode node = new RBTreeNode(true, r.getItemAt(0), left, right);
             return node;
         } else {
             // TODO: Replace with code to create a 3-node equivalent
             RBTreeNode child0 = buildRedBlackTree(r.getChildAt(0));
             RBTreeNode child1 = buildRedBlackTree(r.getChildAt(1));
             RBTreeNode child2 = buildRedBlackTree(r.getChildAt(2));
-            RBTreeNode nodeRed = new RBTreeNode(false,r.getItemAt(2), child0, child1);
+            RBTreeNode nodeRed = new RBTreeNode(false,r.getItemAt(0), child0, child1);
             RBTreeNode nodeBlack = new RBTreeNode(true,r.getItemAt(1),nodeRed, child2);
             return nodeBlack;
         }
@@ -127,8 +127,6 @@ public class RedBlackTree<T extends Comparable<T>> {
      * @return
      */
     private RBTreeNode<T> insert(RBTreeNode<T> node, T item) {
-        // TODO: Insert (return) new red leaf node.
-        // TODO: Handle normal binary search tree insertion. The below line may help.
         if (node == null) {
             return new RBTreeNode(false, item, null, null);
         }
@@ -138,19 +136,16 @@ public class RedBlackTree<T extends Comparable<T>> {
         }else if(comp < 0) {
             node.left = insert(node.left, item);
         }
-        // TODO: Rotate left operation (handle "middle of three" and "right-leaning red" structures)
         if (isRed(node.right) && !isRed(node.left)) {
             node = rotateLeft(node);
         }
-        // TODO: Rotate right operation (handle "smallest of three" structure)
         if (isRed(node.left) && isRed(node.left.left)) {
             node = rotateRight(node);
         }
-        // TODO: Color flip (handle "largest of three" structure)
         if (isRed(node.left) && isRed(node.right)) {
             flipColors(node);
         }
-        return node; // TODO: fix this return statement
+        return node;
     }
 
     /**
