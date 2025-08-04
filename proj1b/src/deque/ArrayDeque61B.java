@@ -166,12 +166,8 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         Iterator<?> otherIterator = other.iterator();
         while (thisIterator.hasNext()) {
             T thisItem = thisIterator.next();
-            Object otherItem = otherIterator.next();
-            if (!Objects.equals(thisItem, otherItem)) {
-                return false;
-            }
+            Object otherItem = oth
         }
-        return true;
     }
 
 
