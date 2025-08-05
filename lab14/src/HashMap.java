@@ -131,7 +131,6 @@ public class HashMap<K, V> implements Map61BL<K, V>{
             && (bucketIterator == null || !bucketIterator.hasNext())) {
                 if (buckets[bucketIndex] != null && !buckets[bucketIndex].isEmpty()) {
                     bucketIterator = buckets[bucketIndex].iterator();
-
                 }
                 else {
                     bucketIndex++;

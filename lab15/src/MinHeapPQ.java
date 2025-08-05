@@ -1,3 +1,5 @@
+import java.util.NoSuchElementException;
+
 /* A PriorityQueue class that uses a min heap to maintain ordering. */
 public class MinHeapPQ<T> implements PriorityQueue<T> {
 
@@ -12,21 +14,29 @@ public class MinHeapPQ<T> implements PriorityQueue<T> {
     /* Returns the item with the smallest priority value, but does not remove it
        from the MinHeapPQ. */
     public T peek() {
-        // TODO: YOUR CODE HERE
-        return null;
+        if (heap.size() == 0) {
+            throw new NoSuchElementException();
+        }
+        return heap.findMin().item;
     }
 
     /* Inserts ITEM with the priority value PRIORITYVALUE into the MinHeapPQ. If
        ITEM is already in the MinHeapPQ, throw an IllegalArgumentException. */
     public void insert(T item, double priorityValue) {
         // TODO: YOUR CODE HERE
+        heap.insert(new PriorityItem(item, priorityValue));
     }
 
     /* Returns the item with the highest priority (smallest priority value), and
        removes it from the MinHeapPQ. If there is nothing in the queue, return null.*/
     public T poll() {
         // TODO: YOUR CODE HERE
-        return null;
+        if (heap.size() == 0) {
+            throw new NoSuchElementException();
+        }
+        PriorityItem temp = heap.findMin();
+        heap.removeMin();
+        return temp.item;
     }
 
     /* Changes the PriorityItem with item ITEM to have priority value
@@ -34,6 +44,7 @@ public class MinHeapPQ<T> implements PriorityQueue<T> {
        is not in the MinHeapPQ, throw a NoSuchElementException. */
     public void changePriority(T item, double priorityValue) {
         // TODO: OPTIONAL
+
     }
 
     /* Returns the number of items in the MinHeapPQ. */
