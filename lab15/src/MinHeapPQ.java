@@ -32,7 +32,7 @@ public class MinHeapPQ<T> implements PriorityQueue<T> {
     public T poll() {
         // TODO: YOUR CODE HERE
         if (heap.size() == 0) {
-            throw new NoSuchElementException();
+            return null;
         }
         PriorityItem temp = heap.findMin();
         heap.removeMin();
@@ -50,7 +50,7 @@ public class MinHeapPQ<T> implements PriorityQueue<T> {
     /* Returns the number of items in the MinHeapPQ. */
     public int size() {
         // TODO: YOUR CODE HERE
-        return 0;
+        return heap.size();
     }
 
     /* Returns true if ITEM is stored in our MinHeapPQ. Note: Any priority value
