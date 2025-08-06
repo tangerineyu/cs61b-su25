@@ -93,6 +93,9 @@ public class MinHeapPQ<T> implements PriorityQueue<T> {
 
         @Override
         public int compareTo(PriorityItem o) {
+            if (o == null) {
+                throw new NullPointerException();
+            }
             double diff = this.priorityValue - o.priorityValue;
             if (diff > 0) {
                 return 1;
