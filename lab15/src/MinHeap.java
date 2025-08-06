@@ -102,7 +102,7 @@ public class MinHeap<E extends Comparable<E>> {
         }
         E val1 = contents.get(index1);
         E val2 = contents.get(index2);
-        if (val1 ==null) {
+        if (val1 == null) {
             return index2;
         }
         if (val2 == null) {
@@ -150,6 +150,9 @@ public class MinHeap<E extends Comparable<E>> {
             E current = contents.get(index);
             int smallChild = min(left, right);
             E child = getElement(smallChild);
+            if (smallChild >= contents.size() || child == null) {
+                break;
+            }
             if (current.compareTo(child) <= 0) {
                 break;
             }
@@ -179,15 +182,15 @@ public class MinHeap<E extends Comparable<E>> {
         if (size() == 0) {
             return null;
         }
-        E min = contents.get(1);
+        E removeItem = contents.get(1);
         if (size() == 1) {
             contents.remove(1);
-            indexMap.remove(min);
-            return min;
+            indexMap.remove(removeItem);
+            return removeItem;
         }
         swap(1, contents.size() - 1);
-        E removeItem = contents.remove(contents.size() - 1);
-        indexMap.remove(removeItem);
+        E removed = contents.remove(contents.size() - 1);
+        indexMap.remove(removed);
         bubbleDown(1);
         return removeItem;
     }
