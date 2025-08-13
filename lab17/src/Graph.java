@@ -29,7 +29,14 @@ public class Graph implements Iterable<Integer> {
        Edge already exists, replaces the current Edge with a new Edge with
        weight WEIGHT. */
     public void addEdge(int v1, int v2, int weight) {
-        // TODO: YOUR CODE HERE
+        LinkedList<Edge> edges = adjLists[v1];
+        for (Edge edge : edges) {
+            if (edge.to == v2) {
+                edge.weight = weight; // Update weight if edge already exists
+                return;
+            }
+        }
+        edges.add(new Edge(v1, v2, weight)); // Add new edge if it
     }
 
     /* Adds an undirected Edge (V1, V2) to the graph. That is, adds an edge
@@ -42,26 +49,46 @@ public class Graph implements Iterable<Integer> {
        Edge already exists, replaces the current Edge with a new Edge with
        weight WEIGHT. */
     public void addUndirectedEdge(int v1, int v2, int weight) {
-        // TODO: YOUR CODE HERE
+        addEdge(v1, v2, weight); // Add edge from v1 to v2
+        addEdge(v2, v1, weight); // Add edge from v2 to v1
     }
 
     /* Returns true if there exists an Edge from vertex FROM to vertex TO.
        Returns false otherwise. */
     public boolean isAdjacent(int from, int to) {
         // TODO: YOUR CODE HERE
+        LinkedList<Edge> edges = adjLists[from];
+        for (Edge edge : edges) {
+            if (edge.to == to) {
+                return true; // Edge exists from 'from' to 'to'
+            }
+        }
         return false;
     }
 
     /* Returns a list of all the vertices u such that the Edge (V, u)
        exists in the graph. */
     public List<Integer> neighbors(int v) {
-        // TODO: YOUR CODE HERE
-        return null;
+        LinkedList<Edge> edges = adjLists[v];
+        ArrayList<Integer> neighbors = new ArrayList<>();
+        for (Edge edge : edges) {
+            neighbors.add(edge.to); // Add the destination vertex of each edge
+        }
+        neighbors.sort((Integer i1, Integer i2) -> -(i1 - i2)); // Sort in descending order
+        return neighbors;
     }
     /* Returns the number of incoming Edges for vertex V. */
     public int inDegree(int v) {
-        // TODO: YOUR CODE HERE
-        return 0;
+        int count = 0;
+        for (int i = 0; i < vertexCount; i++) {
+            LinkedList<Edge> edges = adjLists[i];
+            for (Edge edge : edges) {
+                if (edge.to == v) {
+                    count++; // Increment count if edge points to vertex v
+                }
+            }
+        }
+        return count;
     }
 
     /* Returns an Iterator that outputs the vertices of the graph in topological
@@ -137,10 +164,29 @@ public class Graph implements Iterable<Integer> {
         return result;
     }
 
-    /* Returns true iff there exists a path from START to STOP. Assumes both
+    /* Returns true if there exists a path from START to STOP. Assumes both
        START and STOP are in this graph. If START == STOP, returns true. */
     public boolean pathExists(int start, int stop) {
-        // TODO: YOUR CODE HERE
+        if (start == stop) {
+            return true;
+        }
+        HashSet<Integer> visited = new HashSet<>();
+        Stack<Integer> fringe = new Stack<>();
+        fringe.push(start);
+        while (!fringe.isEmpty()) {
+            int current = fringe.pop();
+            if (current == stop) {
+                return true; // Found the stop vertex
+            }
+            if (!visited.contains(current)) {
+                visited.add(current);
+                for (int neighbor : neighbors(current)) {
+                    if (!visited.contains(neighbor)) {
+                        fringe.push(neighbor); // Add unvisited neighbors to the stack
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -148,8 +194,52 @@ public class Graph implements Iterable<Integer> {
     /* Returns the path from START to STOP. If no path exists, returns an empty
        List. If START == STOP, returns a List with START. */
     public List<Integer> path(int start, int stop) {
-        // TODO: YOUR CODE HERE
-        return null;
+        ArrayList<Integer> result = new ArrayList<>();
+        if (start == stop) {
+            result.add(start);
+            return result; // Return a list with the start vertex
+        }
+        HashSet<Integer> visited = new HashSet<>();
+        Stack<Integer> fringe = new Stack<>();
+        int[] predecessor = new int[vertexCount];
+        for (int i = 0; i < vertexCount; i++) {
+            predecessor[i] = -1;
+        }
+        fringe.push(start);
+        visited.add(start);
+        boolean found = false;
+        while (!fringe.isEmpty()){
+            int current = fringe.pop();
+            for (int neighbor : neighbors(current)) {
+                if (!visited.contains(neighbor)) {
+                    predecessor[neighbor] = current;
+                    if (neighbor == stop) {
+                        found = true;
+                        break;
+                    }
+                    fringe.push(neighbor);
+                    visited.add(neighbor);
+                }
+            }
+            if (found) {
+                break; // Stop searching once the stop vertex is found
+            }
+        }
+        if (!found) {
+            return result; // Return empty list if no path found
+        }
+        // Reconstruct the path from stop to start using predecessor array
+        Stack<Integer> pathStack = new Stack<>();
+        int curr = stop;
+        while (curr != -1) {
+            pathStack.push(curr);
+            curr = predecessor[curr];
+        }
+        // Pop from stack to get path from start to stop
+        while (!pathStack.isEmpty()) {
+            result.add(pathStack.pop());
+        }
+        return result; // Return the path from start to stop
     }
 
     public List<Integer> topologicalSort() {
@@ -169,17 +259,36 @@ public class Graph implements Iterable<Integer> {
 
         TopologicalIterator() {
             fringe = new Stack<Integer>();
+            currentInDegree = new int[vertexCount];
+            for (int i = 0; i < vertexCount; i++) {
+                currentInDegree[i] = inDegree(i);
+            }
+            for (int i = 0; i < vertexCount; i++) {
+                if (currentInDegree[i] == 0) {
+                    fringe.push(i);
+                }
+            }
             // TODO: YOUR CODE HERE
         }
 
         public boolean hasNext() {
             // TODO: YOUR CODE HERE
-            return false;
+
+            return !fringe.isEmpty();
         }
 
         public Integer next() {
-            // TODO: YOUR CODE HERE
-            return 0;
+            if (!hasNext()) {
+                throw new java.util.NoSuchElementException();
+            }
+            int v = fringe.pop();
+            for (int u : neighbors(v)) {
+                currentInDegree[u]--;
+                if (currentInDegree[u] == 0) {
+                    fringe.push(u);
+                }
+            }
+            return v;
         }
 
         public void remove() {
