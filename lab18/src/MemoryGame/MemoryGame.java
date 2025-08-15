@@ -97,7 +97,7 @@ public class MemoryGame {
         //TODO: Display each character in letters, making sure to blank the screen between letters
         this.playerTurn = false;
         for (int i = 0; i < letters.length(); i++) {
-            String letter = letters.valueOf(letters.charAt(i));
+            String letter = String.valueOf(letters.charAt(i));
             drawFrame(letter);
             StdDraw.pause(1000);
             drawFrame(" ");
