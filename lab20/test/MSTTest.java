@@ -39,7 +39,7 @@ public class MSTTest {
         Graph output = new Graph();
         Graph mst1 = input.prims(0);
         Graph mst2 = input.kruskals();
-        assertThat(mst1).isEqualTo(output);
+        assertThat(mst1).isEqualTo(null);
         assertThat(mst2).isEqualTo(output);
 
     }
@@ -53,6 +53,16 @@ public class MSTTest {
         Graph mst2 = input.kruskals();
         assertThat(mst1).isEqualTo(output);
         assertThat(mst2).isEqualTo(output);
+    }
+    @Test
+    public void test3() {
+        Graph input = loadFromText(SOME_DISJOINT);
+        Graph output = new Graph();
+
+        Graph mst1 = input.prims(0);
+        Graph mst2 = input.kruskals();
+        assertThat(mst1).isEqualTo(null);
+        assertThat(mst2).isEqualTo(null);
     }
 
     /* Returns a randomly generated graph with VERTICES number of vertices and

@@ -124,6 +124,9 @@ public class Graph {
         Set<Integer> visited = new HashSet<>();
         PriorityQueue<Edge> pq = new PriorityQueue<>();
 
+        if (this.getAllVertices().isEmpty()) {
+            return null;
+        }
         visited.add(start);
         mst.addVertex(start);
         pq.addAll(this.getEdges(start));
@@ -145,6 +148,9 @@ public class Graph {
                 }
             }
         }
+        if (visited.size() < totalVertices) {
+            return null;
+        }
         return mst;
     }
 
@@ -152,6 +158,9 @@ public class Graph {
         // TODO: YOUR CODE HERE
         Graph mst = new Graph();
         int numvertices = this.getAllVertices().size();
+        if (numvertices == 0) {
+            return null;
+        }
         UnionFind uf = new UnionFind(this.getAllVertices());
 
         List<Edge> sortedEdges = new ArrayList<>(this.getAllEdges());
@@ -167,6 +176,9 @@ public class Graph {
                     break;
                 }
             }
+        }
+        if (mst.getAllEdges().size() != numvertices - 1) {
+            return null;
         }
         return mst;
     }
