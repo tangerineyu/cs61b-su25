@@ -35,6 +35,24 @@ public class MSTTest {
     @Test
     public void test1() {
         // TODO: write more tests!
+        Graph input = loadFromText(ALL_DISJOINT);
+        Graph output = new Graph();
+        Graph mst1 = input.prims(0);
+        Graph mst2 = input.kruskals();
+        assertThat(mst1).isEqualTo(output);
+        assertThat(mst2).isEqualTo(output);
+
+    }
+    @Test
+    public void test2() {
+        Graph input = loadFromText(MULTI_EDGE);
+        Graph output = new Graph();
+        output.addEdge(1, 2, 1);
+        output.addEdge(0, 1, 0);
+        Graph mst1 = input.prims(0);
+        Graph mst2 = input.kruskals();
+        assertThat(mst1).isEqualTo(output);
+        assertThat(mst2).isEqualTo(output);
     }
 
     /* Returns a randomly generated graph with VERTICES number of vertices and

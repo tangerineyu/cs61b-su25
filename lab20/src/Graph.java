@@ -120,12 +120,82 @@ public class Graph {
 
     public Graph prims(int start) {
         // TODO: YOUR CODE HERE
-        return null;
+        Graph mst = new Graph();
+        Set<Integer> visited = new HashSet<>();
+        PriorityQueue<Edge> pq = new PriorityQueue<>();
+
+        visited.add(start);
+        mst.addVertex(start);
+        pq.addAll(this.getEdges(start));
+        int totalVertices = this.getAllVertices().size();
+        while (!pq.isEmpty() && visited.size() < totalVertices) {
+            Edge cheapEdge = pq.poll();
+            int v1 = cheapEdge.getSource();
+            int v2 = cheapEdge.getDest();
+            if (visited.contains(v1) && visited.contains(v2)) {
+                continue;
+            }
+            int newVertex = visited.contains(v1) ? v2 : v1;
+            visited.add(newVertex);
+
+            mst.addEdge(cheapEdge);
+            for (Edge edge : this.getEdges(newVertex)) {
+                if (!visited.contains(edge.getDest())) {
+                    pq.add(edge);
+                }
+            }
+        }
+        return mst;
     }
 
     public Graph kruskals() {
         // TODO: YOUR CODE HERE
-        return null;
+        Graph mst = new Graph();
+        int numvertices = this.getAllVertices().size();
+        UnionFind uf = new UnionFind(this.getAllVertices());
+
+        List<Edge> sortedEdges = new ArrayList<>(this.getAllEdges());
+        int edgeCount = 0;
+        for (Edge e : sortedEdges) {
+            int u  = e.getSource();
+            int v = e. getDest();
+            if (!uf.connected(u, v)) {
+                uf.union(u, v);
+                mst.addEdge(e);
+                edgeCount++;
+                if (edgeCount == numvertices - 1) {
+                    break;
+                }
+            }
+        }
+        return mst;
+    }
+    private static class UnionFind {
+        private Map<Integer, Integer> parent;
+        public UnionFind(Set<Integer> vertices) {
+            parent = new HashMap<>();
+            for (Integer v : vertices) {
+                parent.put(v, v);
+            }
+        }
+        public int find(int v) {
+            if (parent.get(v) == v) {
+                return v;
+            }
+            int root = find(parent.get(v));
+            parent.put(v, root);
+            return root;
+        }
+        public void union(int v1, int v2) {
+            int root1 = find(v1);
+            int root2 = find(v2);
+            if (root1 != root2) {
+                parent.put(root1, root2);
+            }
+        }
+        public boolean connected(int v1, int v2) {
+            return find(v1) == find(v2);
+        }
     }
 
     /* A comparator to help you compare vertices in terms of
@@ -133,20 +203,20 @@ public class Graph {
      * Feel free to uncomment the below code if you'd like to use it;
      * otherwise, you may implement your own comparator.
      */
-//    private class PrimVertexComparator implements Comparator<Integer> {
-//        private HashMap<Integer, Edge> distFromTree;
-//
-//        public PrimVertexComparator(HashMap<Integer, Edge> distFromTree) {
-//            this.distFromTree = distFromTree;
-//        }
-//
-//        @Override
-//        public int compare(Integer o1, Integer o2) {
-//            int edgeCompRes = distFromTree.get(o1).compareTo(distFromTree.get(o2));
-//            if (edgeCompRes == 0) {
-//                return o1 - o2;
-//            }
-//            return edgeCompRes;
-//        }
-//    }
+    private class PrimVertexComparator implements Comparator<Integer> {
+       private HashMap<Integer, Edge> distFromTree;
+
+        public PrimVertexComparator(HashMap<Integer, Edge> distFromTree) {
+            this.distFromTree = distFromTree;
+        }
+
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            int edgeCompRes = distFromTree.get(o1).compareTo(distFromTree.get(o2));
+            if (edgeCompRes == 0) {
+                return o1 - o2;
+            }
+            return edgeCompRes;
+        }
+    }
 }
