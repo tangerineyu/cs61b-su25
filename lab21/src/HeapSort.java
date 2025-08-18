@@ -17,6 +17,14 @@ public class HeapSort {
      */
     public static void sort(int[] arr) {
         // TODO: Implement heap sort
+        if (arr == null || arr.length < 2) {
+            return;
+        }
+        heapify(arr);
+        for (int i = arr.length - 1; i > 0; i--) {
+            swap(arr, 0, i);
+            bubbleDown(arr, 0, i);
+        }
     }
 
     /**
@@ -28,8 +36,18 @@ public class HeapSort {
      * Suggested helper method that will make it easier for you to implement heap sort.
      */
     private static void heapify(int[] arr) {
-        // TODO: Implement heapify
+        if (arr == null || arr.length < 2) {
+            return;
+        }
+        int n = arr.length;
+        for (int i = n / 2 - 1; i >= 0; i--) {
+            bubbleDown(arr, i, n);
+        }
     }
+    private static void heapifyHelp(int[]arr, int i, int n) {
+
+    }
+
 
 
     /**
