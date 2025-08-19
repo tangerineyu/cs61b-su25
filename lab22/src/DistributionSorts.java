@@ -6,6 +6,24 @@ public class DistributionSorts {
        only 0, 1, ..., 9. */
     public static void countingSort(int[] arr) {
         // TODO: YOUR CODE HERE
+        int n = arr.length;
+        int[] count = new int[10];
+        int[] output = new int[n];
+        for (int i = 0; i < n; i++) {
+            int num = arr[i];
+            count[num]++;
+        }
+        for (int i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+        for (int i = n - 1;i >= 0; i--) {
+            int num = arr[i];
+            output[count[num] - 1] = num;
+            count[num]--;
+        }
+        for (int i = 0;i < n; i++) {
+            arr[i] = output[i];
+        }
     }
 
     /* Destructively sorts ARR using LSD radix sort. */
@@ -21,6 +39,24 @@ public class DistributionSorts {
        rightmost digit of each number. */
     private static void countingSortOnDigit(int[] arr, int digit) {
         // TODO: YOUR CODE HERE
+        int n = arr.length;
+        int[] count = new int[10];
+        int[] output = new int[n];
+        for (int i = 0; i < n ; i++) {
+            int num = (arr[i] / (int) Math.pow(10, digit)) % 10;
+            count[num]++;
+        }
+        for (int i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+        for (int i = n - 1; i >= 0; i--) {
+            int num = (arr[i] / (int) Math.pow(10, digit)) % 10;
+            output[count[num] - 1] = arr[i];
+            count[num]--;
+        }
+        for (int i = 0; i < n; i++) {
+            arr[i] = output[i];
+        }
     }
 
     /* Returns the largest number of digits that any integer in ARR has. */
