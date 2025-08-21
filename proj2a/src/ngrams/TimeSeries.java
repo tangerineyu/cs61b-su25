@@ -30,15 +30,24 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      */
     public TimeSeries(TimeSeries ts, int startYear, int endYear) {
         super();
-        // TODO: Fill in this constructor.
+        if (startYear < MIN_YEAR || endYear > MAX_YEAR || startYear > endYear) {
+            throw new IllegalArgumentException("Invalid year range: " + startYear + " to " + endYear);
+        }
+        for (Integer year : ts.keySet()) {
+            if (year >= startYear && year <= endYear) {
+                this.put(year, ts.get(year));
+            }
+        }
     }
 
     /**
      *  Returns all years for this time series in ascending order.
      */
     public List<Integer> years() {
-        // TODO: Fill in this method.
-        return null;
+        if (this.isEmpty()) {
+            return List.of();
+        }
+        return keySet().stream().toList();
     }
 
     /**
@@ -46,8 +55,10 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      *  order of years().
      */
     public List<Double> data() {
-        // TODO: Fill in this method.
-        return null;
+        if (this.isEmpty()) {
+            return List.of();
+        }
+        return values().stream().toList();
     }
 
     /**
@@ -60,8 +71,23 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      * should store the value from the TimeSeries that contains that year.
      */
     public TimeSeries plus(TimeSeries ts) {
-        // TODO: Fill in this method.
-        return null;
+        if (this.isEmpty() && ts.isEmpty()) {
+            return new TimeSeries();
+        }
+        TimeSeries res = new TimeSeries();
+        for (Integer year : this.keySet()) {
+            double value = this.get(year);
+            if (ts.containsKey(year)) {
+                value += ts.get(year);
+            }
+            res.put(year, value);
+        }
+        for (Integer year : ts.keySet()) {
+            if (!this.containsKey(year)) {
+                res.put(year, ts.get(year));
+            }
+        }
+        return res;
     }
 
     /**
@@ -74,10 +100,19 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      * If TS has a year that is not in this TimeSeries, ignore it.
      */
     public TimeSeries dividedBy(TimeSeries ts) {
-        // TODO: Fill in this method.
-        return null;
+        TimeSeries res = new TimeSeries();
+        for (Integer year : this.keySet()) {
+            if (!ts.containsKey(year)) {
+                throw new IllegalArgumentException("Invalid year range: " + year);
+            }
+            double divisor = ts.get(year);
+            if (divisor == 0) {
+                throw new IllegalArgumentException("Division by zero for year: " + year);
+            }
+            res.put(year, this.get(year) / divisor);
+        }
+
+        return res;
     }
 
-    // TODO: Add any private helper methods.
-    // TODO: Remove all TODO comments before submitting.
 }
