@@ -23,7 +23,8 @@ public class HistoryTextHandler extends NgordnetQueryHandler {
         }
         for (String word : words) {
             TimeSeries ts = map.countHistory(word, startYear, endYear);
-            sb.append(word).append(":").append(ts.toString()).append("\n");
+            TimeSeries relativeTs = ts.dividedBy(map.totalCountHistory());
+            sb.append(word).append(":").append(relativeTs.toString()).append("\n");
         }
         return sb.toString().trim();
     }

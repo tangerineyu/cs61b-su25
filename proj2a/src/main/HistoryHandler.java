@@ -27,18 +27,16 @@ public class HistoryHandler extends NgordnetQueryHandler {
                 System.out.println("No data found for word: " + w);
             }
         }
-        try {
+
             XYChart chart = Plotter.generateTimeSeriesChart(words, seriesList);
             String encodedImage = Plotter.encodeChartAsString(chart);
             if (encodedImage != null) {
-                return "data:image/pang;base64," + encodedImage;
+                return  encodedImage;
             } else {
                 return "图表编码失败";
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "处理请求时发生错误";
-        }
+
+
 
     }
 }
