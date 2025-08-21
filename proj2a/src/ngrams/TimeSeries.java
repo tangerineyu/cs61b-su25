@@ -23,19 +23,21 @@ public class TimeSeries extends TreeMap<Integer, Double> {
     public TimeSeries() {
         super();
     }
-
+    private TreeMap<Integer, Double> map = new TreeMap<>();
     /**
      * Creates a copy of TS, but only between STARTYEAR and ENDYEAR,
      * inclusive of both end points.
      */
     public TimeSeries(TimeSeries ts, int startYear, int endYear) {
         super();
+        this.map = new TreeMap<>();
         if (startYear < MIN_YEAR || endYear > MAX_YEAR || startYear > endYear) {
             throw new IllegalArgumentException("Invalid year range: " + startYear + " to " + endYear);
         }
         for (Integer year : ts.keySet()) {
             if (year >= startYear && year <= endYear) {
-                this.put(year, ts.get(year));
+                Double count = ts.map.get(year);
+                this.put(year, count);
             }
         }
     }
