@@ -19,12 +19,14 @@ public class HistoryTextHandler extends NgordnetQueryHandler {
         int endYear = q.endYear();
         StringBuilder sb = new StringBuilder();
         if (words == null || words.isEmpty()) {
-            return "No words were entered.";
+            return "";
         }
         for (String word : words) {
             TimeSeries wordWeightHistory = map.weightHistory(word, startYear, endYear);
-            sb.append(word).append(": ").append(wordWeightHistory.toString()).append("\n");
+            if (!wordWeightHistory.isEmpty()) {
+                sb.append(word).append(": ").append(wordWeightHistory.toString()).append("\n");
+            }
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }
