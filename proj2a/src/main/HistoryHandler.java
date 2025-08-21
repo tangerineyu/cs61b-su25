@@ -28,15 +28,12 @@ public class HistoryHandler extends NgordnetQueryHandler {
             }
         }
 
-            XYChart chart = Plotter.generateTimeSeriesChart(words, seriesList);
-            String encodedImage = Plotter.encodeChartAsString(chart);
-            if (encodedImage != null) {
-                return  encodedImage;
-            } else {
-                return "图表编码失败";
-            }
-
-
-
+        XYChart chart = Plotter.generateTimeSeriesChart(words, seriesList);
+        String encodedImage = Plotter.encodeChartAsString(chart);
+        if (encodedImage != null) {
+            return  encodedImage;
+        } else {
+            return "图表编码失败";
+        }
     }
 }

@@ -21,11 +21,7 @@ public class HistoryTextHandler extends NgordnetQueryHandler {
         if (words == null || words.isEmpty()) {
             return "No words were entered.";
         }
-        for (String word : words) {
-            TimeSeries ts = map.countHistory(word, startYear, endYear);
-            TimeSeries relativeTs = ts.dividedBy(map.totalCountHistory());
-            sb.append(word).append(":").append(relativeTs.toString()).append("\n");
-        }
-        return sb.toString().trim();
+        TimeSeries summedHistory = map.summedWeightHistory(words, startYear, endYear);
+        return summedHistory.toString();
     }
 }
