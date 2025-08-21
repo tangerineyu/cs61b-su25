@@ -67,7 +67,7 @@ public class NGramMap {
      */
     public TimeSeries countHistory(String word, int startYear, int endYear) {
         if (startYear < MIN_YEAR || endYear > MAX_YEAR || startYear > endYear) {
-            return new TimeSeries();
+            throw new NullPointerException("startYear or endYear is out of bounds.");
         }
         if (!map.containsKey(word)) {
             return new TimeSeries();
@@ -106,7 +106,7 @@ public class NGramMap {
      */
     public TimeSeries weightHistory(String word, int startYear, int endYear) {
         if (startYear < MIN_YEAR || endYear > MAX_YEAR || startYear > endYear) {
-            return new TimeSeries();
+            throw new NullPointerException("Invalid year range: " + startYear + " to " + endYear);
         }
         if (!map.containsKey(word)) {
             return new TimeSeries();
