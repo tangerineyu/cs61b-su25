@@ -29,9 +29,8 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      */
     public TimeSeries(TimeSeries ts, int startYear, int endYear) {
         super();
-        if (startYear < MIN_YEAR || endYear > MAX_YEAR || startYear > endYear) {
-            throw new IllegalArgumentException("Invalid year range: " + startYear + " to " + endYear);
-        }
+        //if (startYear < MIN_YEAR || endYear > MAX_YEAR || startYear > endYear) {
+        //}
         for (Integer year : ts.keySet()) {
             if (year >= startYear && year <= endYear) {
                 Double count = ts.get(year);
